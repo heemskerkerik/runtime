@@ -193,11 +193,10 @@ namespace System.Net.Http.Functional.Tests
             rm.Version = new Version(1, 0);
             rm.Content = new StringContent("content");
 
-            // Note that there is no Content-Length header: The reason is that the value for Content-Length header
-            // doesn't get set by StringContent..ctor, but only if someone actually accesses the ContentLength property.
             Assert.Equal(
                 "Method: PUT, RequestUri: 'http://a.com/', Version: 1.0, Content: " + typeof(StringContent).ToString() + ", Headers:" + Environment.NewLine +
                 $"{{{Environment.NewLine}" +
+                "  Content-Length: 7" + Environment.NewLine +
                 "  Content-Type: text/plain; charset=utf-8" + Environment.NewLine +
                 "}", rm.ToString());
 
@@ -212,6 +211,7 @@ namespace System.Net.Http.Functional.Tests
                 "  Accept: text/plain; q=0.2" + Environment.NewLine +
                 "  Accept: text/xml; q=0.1" + Environment.NewLine +
                 "  Custom-Request-Header: value1" + Environment.NewLine +
+                "  Content-Length: 7" + Environment.NewLine +
                 "  Content-Type: text/plain; charset=utf-8" + Environment.NewLine +
                 "  Custom-Content-Header: value2" + Environment.NewLine +
                 "}", rm.ToString());

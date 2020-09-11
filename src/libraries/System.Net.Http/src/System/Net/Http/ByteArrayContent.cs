@@ -23,6 +23,8 @@ namespace System.Net.Http
 
             _content = content;
             _count = content.Length;
+
+            Headers.ContentLength = _count;
         }
 
         public ByteArrayContent(byte[] content, int offset, int count)
@@ -43,6 +45,8 @@ namespace System.Net.Http
             _content = content;
             _offset = offset;
             _count = count;
+
+            Headers.ContentLength = count;
         }
 
         protected override void SerializeToStream(Stream stream, TransportContext? context, CancellationToken cancellationToken) =>

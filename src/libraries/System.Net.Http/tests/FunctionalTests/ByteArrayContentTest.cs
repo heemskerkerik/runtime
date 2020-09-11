@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System;
+using System.Globalization;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -76,6 +77,18 @@ namespace System.Net.Http.Functional.Tests
             var content = new ByteArrayContent(contentData, 5, 3);
 
             Assert.Equal(3, content.Headers.ContentLength);
+        }
+
+        [Fact]
+        public void Ctor_UseWholeSourceArray_ContentLengthHeaderSetEagerly()
+        {
+            var contentData = new byte[10];
+            var content = new ByteArrayContent(contentData);
+
+            content.Headers.TryGetValues("Content-Length", out var headerValues);
+            Assert.NotNull(headerValues);
+            Assert.Collection(headerValues,
+                value => Assert.Equal(contentData.Length.ToString(CultureInfo.InvariantCulture), value));
         }
 
         [Theory]

@@ -160,6 +160,7 @@ namespace System.Net.Http.Functional.Tests
 
             Assert.Equal(
                 "--theBoundary\r\n" +
+                "Content-Length: 26\r\n" +
                 "someHeaderName: andSomeHeaderValue\r\n" +
                 "someOtherHeaderName: withNotOne, ButTwoValues\r\n" +
                 "oneMoreHeader: withNotOne, AndNotTwo, butThreeValues\r\n" +
@@ -182,9 +183,11 @@ namespace System.Net.Http.Functional.Tests
 
             Assert.Equal(
                 "--theBoundary\r\n" +
+                "Content-Length: 26\r\n" +
                 "\r\n" +
                 "This is a ByteArrayContent\r\n" +
                 "--theBoundary\r\n" +
+                "Content-Length: 23\r\n" +
                 "Content-Type: text/plain; charset=utf-8\r\n" +
                 "\r\n" +
                 "This is a StringContent\r\n" +
@@ -477,22 +480,26 @@ namespace System.Net.Http.Functional.Tests
 
             byte[] expected = Concat(
                 Encoding.Latin1.GetBytes("--fooBoundary\r\n"),
+                Encoding.Latin1.GetBytes("Content-Length: 4\r\n"),
                 Encoding.Latin1.GetBytes("Content-Type: text/plain; charset=utf-8\r\n"),
                 Encoding.Latin1.GetBytes("latin1: "),
                 Encoding.Latin1.GetBytes("\uD83D\uDE00"),
                 Encoding.Latin1.GetBytes("\r\n\r\n"),
                 Encoding.Latin1.GetBytes("bar1"),
                 Encoding.Latin1.GetBytes("\r\n--fooBoundary\r\n"),
+                Encoding.Latin1.GetBytes("Content-Length: 4\r\n"),
                 Encoding.Latin1.GetBytes("utf8: "),
                 Encoding.UTF8.GetBytes("\uD83D\uDE00"),
                 Encoding.Latin1.GetBytes("\r\n\r\n"),
                 Encoding.Latin1.GetBytes("bar2"),
                 Encoding.Latin1.GetBytes("\r\n--fooBoundary\r\n"),
+                Encoding.Latin1.GetBytes("Content-Length: 4\r\n"),
                 Encoding.Latin1.GetBytes("ascii: "),
                 Encoding.ASCII.GetBytes("\uD83D\uDE00"),
                 Encoding.Latin1.GetBytes("\r\n\r\n"),
                 Encoding.Latin1.GetBytes("bar3"),
                 Encoding.Latin1.GetBytes("\r\n--fooBoundary\r\n"),
+                Encoding.Latin1.GetBytes("Content-Length: 4\r\n"),
                 Encoding.Latin1.GetBytes("default: "),
                 Encoding.Latin1.GetBytes("\uD83D\uDE00"),
                 Encoding.Latin1.GetBytes("\r\n\r\n"),
